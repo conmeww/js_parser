@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS Parser</title>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            height: 100%;
+            background-color: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            -webkit-font-smoothing: antialiased;
+            color: #333;
+            font-size: 1.24375rem;
+            font-weight: 700;
+            line-height: 1.75rem;
+            margin-top: 30px;
+            text-decoration: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4d80aa;
+            -webkit-font-smoothing: antialiased;
+            font-family: Fira Sans, sans-serif;
+            color: #333;
+            font-size: 1.25rem;
+            font-weight: inherit;
+            line-height: 1.3;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #4c8eab;
+        }
+
+        .container {
+            width: 70%;
+            margin: 0 auto;
+            margin-bottom: 30px;
+        }
+
+        .article {
+            background-color: #fff;
+            border-bottom: 1px solid #eaeaea;
+            box-sizing: border-box;
+            margin-bottom: 8px;
+            padding: 16px;
+        }
+
+        .top-box {
+            display: flex;
+            align-items: center;
+            margin: 0 0 8px;
+        }
+
+        .author {
+            color: #414b50;
+            margin: 0 5px 0 0;
+            font-size: .8125rem;
+            font-weight: 700;
+            line-height: .9375rem;
+            text-decoration: none;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .date {
+            -webkit-font-smoothing: antialiased;
+            color: #777;
+            display: inline-block;
+            font-size: .8125rem;
+            font-weight: 500;
+            line-height: .9375rem;
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        .snippet {
+            -webkit-font-smoothing: antialiased;
+            color: #1e2c38;
+            font-size: .8125rem;
+            font-weight: 500;
+            line-height: 1.5rem;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Get articles from Habr</h1>
+        <div class="main" id="main"></div>
+    </div>
+
+    <script>
+        // get json
+        fetch('info.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                appendData(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+        // display data in html
+        function appendData(data) {
+            var mainContainer = document.getElementById("main");
+            for (var i = 0; i < data.length; i++) {
+                // create div for each article 
+                var div = document.createElement("div");
+                div.className = "article";
+                mainContainer.appendChild(div);
+
+                var topBox = document.createElement("div")
+                topBox.className = "top-box";
+                div.appendChild(topBox)
+
+                var authorName = document.createElement("span")
+                authorName.className = "author";
+                authorName.innerHTML = data[i].author;
+                topBox.appendChild(authorName);
+
+                var dateTime = document.createElement("span");
+                dateTime.className = "date"
+                dateTime.innerHTML = data[i].time;
+                topBox.appendChild(dateTime);
+
+                // create link to each original article
+                var linkTitle = document.createElement("a");
+                linkTitle.innerHTML = '<a href=https://habr.com' + `${data[i].link}` + '>' + `${data[i].name}` +
+                    '</a></br>';
+                div.appendChild(linkTitle)
+
+                var snippetEl = document.createElement("span")
+                snippetEl.className = "snippet"
+                snippetEl.innerHTML = data[i].snippet;
+                div.appendChild(snippetEl);
+            }
+        }
+    </script>
+</body>
+
+</html>

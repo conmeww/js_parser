@@ -1,0 +1,24 @@
+{
+  "name": "js_parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "express": "^4.17.1",
+    "file-url": "^4.0.0",
+    "http-server": "^13.0.2",
+    "path": "^0.12.7",
+    "puppeteer": "^10.4.0"
+  },
+  "devDependencies": {
+    "open": "^8.2.1"
+  }
+}
